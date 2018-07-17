@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public interface TaskRepository {
 
+    Task getTaskById(UUID taskId);
     void addNewTask(Task task);
     void editTask(UUID taskId,
                   String editedTitle,

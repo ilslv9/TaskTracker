@@ -17,6 +17,21 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
+    public Task getTaskById(UUID taskId) {
+        Task findedTask = null;
+        for (Task task :
+                tasks) {
+            if (task.getTaskId().equals(taskId)) {
+                findedTask = task;
+                break;
+            }
+        }
+        if (findedTask == null) throw new IllegalStateException("Task with such id does not exist");
+        else
+            return findedTask;
+    }
+
+    @Override
     public void addNewTask(Task task) {
         tasks.add(task);
     }
@@ -31,7 +46,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 break;
             }
         }
-        if(editedTask == null)
+        if (editedTask == null)
             throw new IllegalStateException("Task with such id does not exist");
         else
             editedTask.editTask(editedTitle, editedDate, editedTaskStatus, editedTaskDescription);
@@ -55,9 +70,9 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public List<Task> filterTaskByStatus(TaskStatus taskStatus) {
         List<Task> filteredTasks = new ArrayList<>();
-        for (Task task:
-             tasks) {
-            if(task.getTaskStatus().equals(taskStatus))
+        for (Task task :
+                tasks) {
+            if (task.getTaskStatus().equals(taskStatus))
                 filteredTasks.add(task);
         }
         return filteredTasks;
