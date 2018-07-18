@@ -77,4 +77,9 @@ public class TaskRepositoryImpl implements TaskRepository {
         }
         return filteredTasks;
     }
+
+    @Override
+    public List<Task> getTasks() {
+        return tasks;
+    }
 }

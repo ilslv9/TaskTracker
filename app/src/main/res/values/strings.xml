@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">TaskTrackerProject</string>
+    <string name="title_hint">Название</string>
+    <string name="title_hint_control">Введи название</string>
+    <string name="date_hint">Дата</string>
+    <string name="date_hint_control">Дата</string>
+    <string name="status_hint_control">Статус</string>
+    <string name="description_hint">Комментарий</string>
+    <string name="description_hint_control">Введи комментарий</string>
+    <string name="task_edit_hint">Изменить</string>
+    <string name="task_delete_hint">Удалить</string>
+    <string name="recycler_with_no_data_hint">Нет задач</string>
 </resources>

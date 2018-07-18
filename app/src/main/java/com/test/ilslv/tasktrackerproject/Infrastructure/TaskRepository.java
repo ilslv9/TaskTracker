@@ -18,5 +18,6 @@ public interface TaskRepository {
                   String editedTaskDescription);
     void deleteTask(UUID taskId);
     List<Task> filterTaskByStatus(TaskStatus taskStatus);
+    List<Task> getTasks();
 
 }
