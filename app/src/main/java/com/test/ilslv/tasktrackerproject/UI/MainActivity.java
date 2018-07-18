@@ -66,6 +66,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainPresenter.onDestroy();
+    }
+
+    @Override
     public void showTasks(List<Task> tasks) {
         if (tasks.size() != 0)
             recyclerHint.setVisibility(View.GONE);

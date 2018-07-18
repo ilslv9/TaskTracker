@@ -3,20 +3,27 @@ package com.test.ilslv.tasktrackerproject.Domain;
 import java.util.Date;
 import java.util.UUID;
 
-public class Task {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-    private UUID taskId;
+public class Task extends RealmObject {
+
+    @PrimaryKey
+    private String taskId;
     private String taskTitle;
     private Date taskDate;
-    private TaskStatus taskStatus;
+    private String taskStatus;
     private String taskDescription;
 
     public Task(UUID taskId, String taskTitle, Date taskDate, TaskStatus taskStatus, String taskDescription) {
-        this.taskId = taskId;
+        this.taskId = taskId.toString();
         this.taskTitle = taskTitle;
         this.taskDate = taskDate;
-        this.taskStatus = taskStatus;
+        this.taskStatus = taskStatus.toString();
         this.taskDescription = taskDescription;
+    }
+
+    public Task() {
     }
 
     public void editTask(String editedTitle,
@@ -34,7 +41,7 @@ public class Task {
     }
 
     public UUID getTaskId() {
-        return taskId;
+        return UUID.fromString(taskId);
     }
 
     public String getTaskTitle() {
@@ -54,11 +61,11 @@ public class Task {
     }
 
     public TaskStatus getTaskStatus() {
-        return taskStatus;
+        return TaskStatus.valueOf(taskStatus);
     }
 
     public void setTaskStatus(TaskStatus taskStatus) {
-        this.taskStatus = taskStatus;
+        this.taskStatus = taskStatus.toString();
     }
 
     public String getTaskDescription() {

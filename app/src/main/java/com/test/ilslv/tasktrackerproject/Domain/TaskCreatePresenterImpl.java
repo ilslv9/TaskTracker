@@ -27,12 +27,16 @@ public class TaskCreatePresenterImpl implements TaskCreateContract.TaskCreatePre
                            Date taskDate,
                            TaskStatus taskStatus,
                            String taskDescription) {
-        taskRepository.addNewTask(new Task(UUID.randomUUID(),
-                taskTitle,
-                taskDate,
-                taskStatus,
-                taskDescription));
-        taskCreateEditView.showResult();
+        if (taskTitle.isEmpty() || taskDescription.isEmpty()) {
+            taskCreateEditView.showError();
+        } else {
+            taskRepository.addNewTask(new Task(UUID.randomUUID(),
+                    taskTitle,
+                    taskDate,
+                    taskStatus,
+                    taskDescription));
+            taskCreateEditView.showResult();
+        }
     }
 
     @Override

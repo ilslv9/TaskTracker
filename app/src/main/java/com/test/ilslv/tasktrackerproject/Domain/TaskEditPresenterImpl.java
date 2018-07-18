@@ -24,8 +24,12 @@ public class TaskEditPresenterImpl implements TaskEditContract.TaskEditPresenter
 
     @Override
     public void editTask(UUID taskId, String taskTitle, Date taskDate, TaskStatus taskStatus, String taskDescription) {
-        taskRepository.editTask(taskId, taskTitle, taskDate, taskStatus, taskDescription);
-        taskEditView.showResult();
+        if (taskTitle.isEmpty() || taskDescription.isEmpty()) {
+            taskEditView.showError();
+        } else {
+            taskRepository.editTask(taskId, taskTitle, taskDate, taskStatus, taskDescription);
+            taskEditView.showResult();
+        }
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.test.ilslv.tasktrackerproject.Domain.Task;
 import com.test.ilslv.tasktrackerproject.Domain.TaskEditContract;
@@ -131,18 +132,35 @@ public class TaskEditActivity extends AppCompatActivity implements TaskEditContr
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        taskEditPresenter.onDestroy();
+    }
+
+    @Override
     public void showTaskData(Task task) {
         titleControl.setText(task.getTaskTitle());
+
         List<TaskStatus> keys = new ArrayList<>(statusMap.values());
         int position = keys.indexOf(task.getTaskStatus());
         statusControl.setSelection(position);
-        dateControl.setText(task.getTaskDate().toString());
+
+        Locale loc = new Locale("ru");
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm", loc);
+        format.setTimeZone(TimeZone.getDefault());
+        dateControl.setText(format.format(task.getTaskDate()).toString());
+
         descriptionControl.setText(task.getTaskDescription());
     }
 
     @Override
     public void showResult() {
         this.finish();
+    }
+
+    @Override
+    public void showError() {
+        Toast.makeText(getApplicationContext(), "Заполните данные о задаче", Toast.LENGTH_LONG).show();
     }
 
     @Override

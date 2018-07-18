@@ -76,6 +76,12 @@ public class TaskInfoActivity extends AppCompatActivity implements TaskInfoContr
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        taskInfoPresenter.onDestroy();
+    }
+
+    @Override
     public void showTaskInfo(Task task) {
         taskTitle.setText(task.getTaskTitle());
         taskStatus.setText(task.getTaskStatus().getName());

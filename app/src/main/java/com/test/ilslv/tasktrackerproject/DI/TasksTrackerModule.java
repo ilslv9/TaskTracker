@@ -10,6 +10,7 @@ import com.test.ilslv.tasktrackerproject.Domain.TaskEditContract;
 import com.test.ilslv.tasktrackerproject.Domain.TaskEditPresenterImpl;
 import com.test.ilslv.tasktrackerproject.Domain.TaskInfoContract;
 import com.test.ilslv.tasktrackerproject.Domain.TaskInfoPresenterImpl;
+import com.test.ilslv.tasktrackerproject.Infrastructure.TaskRealmRepository;
 import com.test.ilslv.tasktrackerproject.Infrastructure.TaskRepository;
 import com.test.ilslv.tasktrackerproject.Infrastructure.TaskRepositoryImpl;
 
@@ -17,14 +18,21 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.realm.Realm;
 
 @Module
 public class TasksTrackerModule {
 
     @Provides
     @Singleton
-    public TaskRepository provideTaskRepository(){
-        return new TaskRepositoryImpl();
+    public Realm provideRealm(){
+        return Realm.getDefaultInstance();
+    }
+
+    @Provides
+    @Singleton
+    public TaskRepository provideTaskRepository(Realm realm){
+        return new TaskRealmRepository(realm);
     }
 
     @Provides

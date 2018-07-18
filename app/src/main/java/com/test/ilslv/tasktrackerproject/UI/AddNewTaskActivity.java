@@ -2,6 +2,7 @@ package com.test.ilslv.tasktrackerproject.UI;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.test.ilslv.tasktrackerproject.Domain.Task;
 import com.test.ilslv.tasktrackerproject.Domain.TaskCreateContract;
@@ -73,6 +75,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements TaskCreateC
         TasksTrackerApp.getTasksTrackerComponent().inject(this);
         taskCreatePresenter.onCreate(this);
 
+        getSaredText();
 
         statusMap = new LinkedHashMap<>();
         statusMap.put("Новая", TaskStatus.NEW);
@@ -128,8 +131,20 @@ public class AddNewTaskActivity extends AppCompatActivity implements TaskCreateC
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        taskCreatePresenter.onDestroy();
+    }
+
+    @Override
     public void showResult() {
-        this.finish();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showError() {
+        Toast.makeText(getApplicationContext(), "Заполните данные о задаче", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -149,5 +164,24 @@ public class AddNewTaskActivity extends AppCompatActivity implements TaskCreateC
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm", loc);
         format.setTimeZone(TimeZone.getDefault());
         dateControl.setText(format.format(taskDate).toString());
+    }
+
+    private void getSaredText(){
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intent);
+            }
+        }
+    }
+
+    private void handleSendText(Intent intent){
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (sharedText != null) {
+            descriptionControl.setText(sharedText);
+        }
     }
 }

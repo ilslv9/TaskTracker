@@ -6,6 +6,7 @@ import java.util.UUID;
 public interface TaskCreateContract {
     interface TaskCreateView{
         void showResult();
+        void showError();
     }
     interface TaskCreatePresenter{
         void onCreate(TaskCreateView taskCreateView);

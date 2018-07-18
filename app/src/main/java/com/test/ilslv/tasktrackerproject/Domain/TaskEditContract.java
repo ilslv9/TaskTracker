@@ -7,6 +7,7 @@ public interface TaskEditContract {
     interface TaskEditView{
         void showTaskData(Task task);
         void showResult();
+        void showError();
     }
     interface TaskEditPresenter{
         void onCreate(TaskEditView taskEditView);
