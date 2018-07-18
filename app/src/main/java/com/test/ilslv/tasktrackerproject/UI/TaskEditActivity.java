@@ -21,12 +21,10 @@ import com.test.ilslv.tasktrackerproject.Domain.TaskStatus;
 import com.test.ilslv.tasktrackerproject.R;
 import com.test.ilslv.tasktrackerproject.TasksTrackerApp;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -40,7 +38,7 @@ import butterknife.ButterKnife;
 
 public class TaskEditActivity extends AppCompatActivity implements TaskEditContract.TaskEditView,
         DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener{
+        TimePickerDialog.OnTimeSetListener {
 
     @BindView(R.id.titleControl)
     EditText titleControl;
@@ -64,8 +62,6 @@ public class TaskEditActivity extends AppCompatActivity implements TaskEditContr
     private int taskYear;
     private int taskMonth;
     private int taskDay;
-    private int taskHour;
-    private int taskMinuets;
     LinkedHashMap<String, TaskStatus> statusMap;
     String[] spinnerData = new String[3];
 
@@ -77,9 +73,9 @@ public class TaskEditActivity extends AppCompatActivity implements TaskEditContr
         TasksTrackerApp.getTasksTrackerComponent().inject(this);
 
         statusMap = new LinkedHashMap<>();
-        statusMap.put("Новая", TaskStatus.NEW);
-        statusMap.put("В процессе", TaskStatus.INPROGRESS);
-        statusMap.put("Выполнена", TaskStatus.DONE);
+        statusMap.put(TaskStatus.NEW.getName(), TaskStatus.NEW);
+        statusMap.put(TaskStatus.INPROGRESS.getName(), TaskStatus.INPROGRESS);
+        statusMap.put(TaskStatus.DONE.getName(), TaskStatus.DONE);
         spinnerData = statusMap.keySet().toArray(spinnerData);
 
         taskEditPresenter.onCreate(this);
@@ -115,7 +111,18 @@ public class TaskEditActivity extends AppCompatActivity implements TaskEditContr
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusControl.setAdapter(adapter);
 
-        taskEditPresenter.getNoEditTaskData(taskId);
+        if (savedInstanceState == null)
+            taskEditPresenter.getNoEditTaskData(taskId);
+        else {
+            titleControl.setText(savedInstanceState.getString("taskTitle"));
+            descriptionControl.setText(savedInstanceState.getString("taskDescription"));
+            statusControl.setSelection(savedInstanceState.getInt("taskStatus"));
+
+            Locale loc = new Locale("ru");
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm", loc);
+            format.setTimeZone(TimeZone.getDefault());
+            dateControl.setText(format.format(new Date(savedInstanceState.getLong("taskDate"))).toString());
+        }
 
         editTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +142,15 @@ public class TaskEditActivity extends AppCompatActivity implements TaskEditContr
     protected void onDestroy() {
         super.onDestroy();
         taskEditPresenter.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("taskTitle", titleControl.getText().toString());
+        outState.putLong("taskDate", taskDate.getTime());
+        outState.putInt("taskStatus", statusControl.getSelectedItemPosition());
+        outState.putString("taskDescription", descriptionControl.getText().toString());
     }
 
     @Override
@@ -173,8 +189,6 @@ public class TaskEditActivity extends AppCompatActivity implements TaskEditContr
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minuets) {
-        taskHour = hour;
-        taskMinuets = minuets;
         taskDate = new Date(taskYear, taskMonth, taskDay, hour, minuets);
         Locale loc = new Locale("ru");
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm", loc);

@@ -27,6 +27,11 @@ public class MainPresenterImpl implements MainContract.MainPresenter {
     }
 
     @Override
+    public void filterTasks(TaskStatus taskStatus) {
+        mainView.showTasks(taskRepository.filterTaskByStatus(taskStatus));
+    }
+
+    @Override
     public void onDestroy() {
         mainView = null;
     }

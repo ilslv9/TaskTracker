@@ -62,8 +62,6 @@ public class AddNewTaskActivity extends AppCompatActivity implements TaskCreateC
     private int taskYear;
     private int taskMonth;
     private int taskDay;
-    private int taskHour;
-    private int taskMinuets;
     LinkedHashMap<String, TaskStatus> statusMap;
     String[] spinnerData = new String[3];
 
@@ -78,9 +76,9 @@ public class AddNewTaskActivity extends AppCompatActivity implements TaskCreateC
         getSaredText();
 
         statusMap = new LinkedHashMap<>();
-        statusMap.put("Новая", TaskStatus.NEW);
-        statusMap.put("В процессе", TaskStatus.INPROGRESS);
-        statusMap.put("Выполнена", TaskStatus.DONE);
+        statusMap.put(TaskStatus.NEW.getName(), TaskStatus.NEW);
+        statusMap.put(TaskStatus.INPROGRESS.getName(), TaskStatus.INPROGRESS);
+        statusMap.put(TaskStatus.DONE.getName(), TaskStatus.DONE);
         spinnerData = statusMap.keySet().toArray(spinnerData);
 
         taskDate = Calendar.getInstance(TimeZone.getDefault()).getTime();
@@ -117,14 +115,23 @@ public class AddNewTaskActivity extends AppCompatActivity implements TaskCreateC
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusControl.setAdapter(adapter);
 
+        if (savedInstanceState != null) {
+            titleControl.setText(savedInstanceState.getString("taskTitle"));
+            descriptionControl.setText(savedInstanceState.getString("taskDescription"));
+            statusControl.setSelection(savedInstanceState.getInt("taskStatus"));
+
+            format.setTimeZone(TimeZone.getDefault());
+            dateControl.setText(format.format(new Date(savedInstanceState.getLong("taskDate"))).toString());
+        }
+
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String position = (String) statusControl.getSelectedItem();
+                String item = (String) statusControl.getSelectedItem();
                 taskCreatePresenter.createTask(
                         titleControl.getText().toString(),
                         taskDate,
-                        statusMap.get(position),
+                        statusMap.get(item),
                         descriptionControl.getText().toString());
             }
         });
@@ -134,6 +141,15 @@ public class AddNewTaskActivity extends AppCompatActivity implements TaskCreateC
     protected void onDestroy() {
         super.onDestroy();
         taskCreatePresenter.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("taskTitle", titleControl.getText().toString());
+        outState.putLong("taskDate", taskDate.getTime());
+        outState.putInt("taskStatus", statusControl.getSelectedItemPosition());
+        outState.putString("taskDescription", descriptionControl.getText().toString());
     }
 
     @Override
@@ -157,8 +173,6 @@ public class AddNewTaskActivity extends AppCompatActivity implements TaskCreateC
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minuets) {
-        taskHour = hour;
-        taskMinuets = minuets;
         taskDate = new Date(taskYear, taskMonth, taskDay, hour, minuets);
         Locale loc = new Locale("ru");
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm", loc);
@@ -166,7 +180,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements TaskCreateC
         dateControl.setText(format.format(taskDate).toString());
     }
 
-    private void getSaredText(){
+    private void getSaredText() {
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
@@ -178,7 +192,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements TaskCreateC
         }
     }
 
-    private void handleSendText(Intent intent){
+    private void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
             descriptionControl.setText(sharedText);

@@ -11,6 +11,7 @@ public interface MainContract {
     interface MainPresenter {
         void onCreate(MainView mainView);
         void loadTasks();
+        void filterTasks(TaskStatus taskStatus);
         void onDestroy();
     }
 

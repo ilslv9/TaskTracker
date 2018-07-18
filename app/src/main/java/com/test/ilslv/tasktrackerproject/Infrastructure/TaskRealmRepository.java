@@ -3,6 +3,7 @@ package com.test.ilslv.tasktrackerproject.Infrastructure;
 import com.test.ilslv.tasktrackerproject.Domain.Task;
 import com.test.ilslv.tasktrackerproject.Domain.TaskStatus;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -78,7 +79,7 @@ public class TaskRealmRepository implements TaskRepository {
 
     @Override
     public List<Task> filterTaskByStatus(TaskStatus taskStatus) {
-        return null;
+        return realm.where(Task.class).equalTo("taskStatus", taskStatus.toString()).findAll();
     }
 
     @Override

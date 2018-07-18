@@ -8,15 +8,21 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.test.ilslv.tasktrackerproject.Domain.MainContract;
 import com.test.ilslv.tasktrackerproject.Domain.Task;
+import com.test.ilslv.tasktrackerproject.Domain.TaskStatus;
 import com.test.ilslv.tasktrackerproject.R;
 import com.test.ilslv.tasktrackerproject.TasksTrackerApp;
 import com.test.ilslv.tasktrackerproject.UI.AddNewTaskActivity;
 import com.test.ilslv.tasktrackerproject.UI.TasksAdapter;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,10 +35,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     @BindView(R.id.tasksView)
     RecyclerView tasksView;
     @BindView(R.id.addNewTask)
-    FloatingActionButton addNewTask;
+    Button addNewTask;
     @BindView(R.id.recyclerHint)
     TextView recyclerHint;
+    @BindView(R.id.statusFilter)
+    Spinner statusFilter;
     TasksAdapter tasksAdapter;
+    LinkedHashMap<String, TaskStatus> statusMap;
+    String[] spinnerData = new String[4];
 
     @Inject
     MainContract.MainPresenter mainPresenter;
@@ -49,6 +59,35 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(tasksView.getContext(),
                 linearLayoutManager.getOrientation());
         tasksView.addItemDecoration(dividerItemDecoration);
+
+        statusMap = new LinkedHashMap<>();
+        statusMap.put("Без фильтров", null);
+        statusMap.put(TaskStatus.NEW.getName(), TaskStatus.NEW);
+        statusMap.put(TaskStatus.INPROGRESS.getName(), TaskStatus.INPROGRESS);
+        statusMap.put(TaskStatus.DONE.getName(), TaskStatus.DONE);
+        spinnerData = statusMap.keySet().toArray(spinnerData);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, spinnerData);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        statusFilter.setAdapter(adapter);
+
+        statusFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) {
+                    mainPresenter.loadTasks();
+                }else{
+                    String item = (String) statusFilter.getSelectedItem();
+                    TaskStatus filterStatus = statusMap.get(item);
+                    mainPresenter.filterTasks(filterStatus);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         addNewTask.setOnClickListener(new View.OnClickListener() {
             @Override

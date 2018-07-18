@@ -5,123 +5,140 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="horizontal"
     tools:layout_editor_absoluteY="81dp">
 
-    <TextView
-        android:id="@+id/titleHint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/title_hint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/titleCardView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:minHeight="40dp"
-        app:layout_constraintTop_toBottomOf="@+id/titleHint"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="48dp">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp">
 
-        <EditText
-            android:id="@+id/titleControl"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff"
-            android:hint="@string/title_hint_control"
-            android:padding="4dp" />
-    </android.support.v7.widget.CardView>
+            >
 
-    <TextView
-        android:id="@+id/dateHint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/date_hint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleCardView" />
+            <TextView
+                android:id="@+id/titleHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/title_hint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/dateControl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#ffffff"
-        android:text="@string/date_hint_control"
-        app:layout_constraintTop_toBottomOf="@id/dateHint"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="127dp" />
+            <android.support.v7.widget.CardView
+                android:id="@+id/titleCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:minHeight="40dp"
+                app:cardBackgroundColor="@color/whiteColor"
+                app:layout_constraintTop_toBottomOf="@+id/titleHint"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="48dp">
 
-    <TextView
-        android:id="@+id/statusHint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/status_hint_control"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dateControl" />
+                <EditText
+                    android:id="@+id/titleControl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/whiteColor"
+                    android:hint="@string/title_hint_control"
+                    android:padding="4dp" />
+            </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/statusCardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:minHeight="40dp"
-        app:layout_constraintTop_toBottomOf="@id/statusHint"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="223dp">
+            <TextView
+                android:id="@+id/dateHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/date_hint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleCardView" />
 
-        <Spinner
-            android:id="@+id/statusControl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="40dp"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="225dp" />
-    </android.support.v7.widget.CardView>
+            <Button
+                android:id="@+id/dateControl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#ffffff"
+                android:text="@string/date_hint_control"
+                app:layout_constraintTop_toBottomOf="@id/dateHint"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="127dp" />
 
-    <TextView
-        android:id="@+id/descriptionHint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/description_hint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/statusCardView" />
+            <TextView
+                android:id="@+id/statusHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/status_hint_control"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dateControl" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/descriptionCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:minHeight="40dp"
-        app:layout_constraintTop_toBottomOf="@id/descriptionHint"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="311dp">
+            <android.support.v7.widget.CardView
+                android:id="@+id/statusCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:minHeight="40dp"
 
-        <EditText
-            android:id="@+id/desriptionControl"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffffff"
-            android:hint="@string/description_hint_control"
-            android:padding="4dp" />
-    </android.support.v7.widget.CardView>
+                app:layout_constraintTop_toBottomOf="@id/statusHint"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="223dp">
+
+                <Spinner
+                    android:id="@+id/statusControl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:background="@color/whiteColor"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="225dp" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/descriptionHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/description_hint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/statusCardView" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/descriptionCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:minHeight="40dp"
+                app:cardBackgroundColor="@color/whiteColor"
+                app:layout_constraintTop_toBottomOf="@id/descriptionHint"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="311dp">
+
+                <EditText
+                    android:id="@+id/desriptionControl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/whiteColor"
+                    android:hint="@string/description_hint_control"
+                    android:padding="4dp" />
+            </android.support.v7.widget.CardView>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/addOrEditTask"
